@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.core.researching.Research;
 import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.updater.GitHubBuildsUpdater;
 import me.sfiguz7.netherenough.implementation.items.items.ManaRod;
+import me.sfiguz7.netherenough.implementation.listeners.InfusedBlocksListener;
 import me.sfiguz7.netherenough.lists.NEItems;
 import me.sfiguz7.netherenough.lists.NERegistry;
 import org.bukkit.Bukkit;
@@ -36,6 +37,8 @@ public class NetherEnough extends JavaPlugin implements SlimefunAddon {
             new GitHubBuildsUpdater(this, getFile(), "Sfiguz7/NetherEnough/master").start();
         }
 
+        //Listeners
+        new InfusedBlocksListener(this);
         // Config fetching
         manaRodChance = getConfig().getInt("options.manarod-infusing-chance");
         if (manaRodChance < 0 || manaRodChance > 100) {

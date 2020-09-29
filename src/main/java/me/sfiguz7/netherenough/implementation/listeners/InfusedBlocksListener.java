@@ -26,6 +26,7 @@ public class InfusedBlocksListener implements Listener {
         Location loc = b.getLocation();
         if (NetherEnough.getRegistry().getInfusedBlocks().contains(loc)) {
             NetherEnough.getRegistry().getInfusedBlocks().remove(loc);
+            e.setDropItems(false);
             e.getBlock().getWorld().dropItemNaturally(loc, getInfusedBlock(b.getType()));
         }
     }
