@@ -21,11 +21,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ManaRod extends SimpleSlimefunItem<BlockTicker> {
 
     public ManaRod() {
-        super(NEItems.neverenough, NEItems.MANA_ROD, RecipeType.MAGIC_WORKBENCH,
+        super(NEItems.netherenough, NEItems.MANA_ROD, RecipeType.MAGIC_WORKBENCH,
             new ItemStack[] {null, SlimefunItems.MAGIC_LUMP_1, null,
                 null, null, null,
-                null, null, null});
-
+                null, null, null}
+                );
     }
 
 
