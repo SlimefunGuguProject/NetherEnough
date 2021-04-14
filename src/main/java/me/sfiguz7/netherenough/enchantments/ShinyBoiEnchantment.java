@@ -7,12 +7,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+
 public class ShinyBoiEnchantment extends Enchantment {
 
     public ShinyBoiEnchantment(NamespacedKey key) {
         super(key);
     }
 
+    @Nonnull
     @Override
     @Deprecated
     public String getName() {
@@ -29,7 +32,9 @@ public class ShinyBoiEnchantment extends Enchantment {
         return 1;
     }
 
+    @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public EnchantmentTarget getItemTarget() {
         return EnchantmentTarget.ALL;
     }

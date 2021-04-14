@@ -19,6 +19,8 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Campfire;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,29 +48,6 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
     private int decrement = MAX_DECREMENT;
 
 
-
-    public Alembic() {
-        super(NEItems.netherenough, NEItems.ALEMBIC, RecipeType.ENHANCED_CRAFTING_TABLE,
-            new ItemStack[] {null, null, null, null, null, null, null, null, null});
-
-        createPreset(this, this::constructMenu);
-    }
-
-    private void constructMenu(BlockMenuPreset preset) {
-        for (int i : border) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-                ChestMenuUtils.getEmptyClickHandler());
-        }
-        for (int i : inputBorder) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-                ChestMenuUtils.getEmptyClickHandler());
-        }
-        for (int i : slotsBorder) {
-            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
-                ChestMenuUtils.getEmptyClickHandler());
-        }
-    }
-
     // No cargo bois
     @Override
     public int[] getInputSlots() {
@@ -86,7 +65,31 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
 
     private static final Map<ItemStack[], ItemStack> alembicRecipes = new HashMap<>();
 
+
+    public Alembic() {
+        super(NEItems.netherenough, NEItems.ALEMBIC, RecipeType.ENHANCED_CRAFTING_TABLE,
+            new ItemStack[] {null, null, null, null, null, null, null, null, null});
+
+        createPreset(this, this::constructMenu);
+    }
+
+    private void constructMenu(@Nonnull BlockMenuPreset preset) {
+        for (int i : border) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
+                ChestMenuUtils.getEmptyClickHandler());
+        }
+        for (int i : inputBorder) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
+                ChestMenuUtils.getEmptyClickHandler());
+        }
+        for (int i : slotsBorder) {
+            preset.addItem(i, new CustomItem(new ItemStack(Material.ORANGE_STAINED_GLASS_PANE), " "),
+                ChestMenuUtils.getEmptyClickHandler());
+        }
+    }
+
     @Override
+    @Nonnull
     public BlockTicker getItemHandler() {
         return new BlockTicker() {
 
@@ -105,7 +108,7 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
             }
 
             @Override
-            public void tick(Block b, SlimefunItem sf, Config data) {
+            public void tick(@Nonnull Block b, @Nonnull SlimefunItem sf, @Nonnull Config data) {
 
                 // We only act once per decrement cycle, when decrement got to
                 // lowest and has been reset
@@ -135,6 +138,7 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
         };
     }
 
+    @ParametersAreNonnullByDefault
     private void process(BlockMenu inv, Block camp, Material campType, Campfire campfire) {
         ItemStack output = getAlembicOutput(inv);
         if (output != null) {
@@ -151,7 +155,7 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
         }
     }
 
-    private ItemStack getAlembicOutput(BlockMenu inv) {
+    private ItemStack getAlembicOutput(@Nonnull BlockMenu inv) {
         // Check if all inputs are vanilla, build input
         ItemStack[] input = {null, null, null, null, null};
         for (int i = 0; i < inSlots.length; i++) {
@@ -181,7 +185,7 @@ public class Alembic extends SimpleSlimefunItem<BlockTicker> implements NEInvent
         return output;
     }
 
-    Integer idx2slot(int i) {
+    private Integer idx2slot(int i) {
         switch(i) {
             case 0:
                 return 1;

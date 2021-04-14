@@ -2,8 +2,8 @@ package me.sfiguz7.netherenough;
 
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.researching.Research;
-import me.mrCookieSlime.Slimefun.cscorelib2.config.Config;
 import me.mrCookieSlime.Slimefun.cscorelib2.updater.GitHubBuildsUpdater;
+import me.sfiguz7.netherenough.commands.NECommands;
 import me.sfiguz7.netherenough.enchantments.ShinyBoiEnchantment;
 import me.sfiguz7.netherenough.implementation.items.items.AlchemyFire;
 import me.sfiguz7.netherenough.implementation.items.items.FireStarter;
@@ -11,7 +11,12 @@ import me.sfiguz7.netherenough.implementation.items.items.ManaRod;
 import me.sfiguz7.netherenough.implementation.items.items.Powder;
 import me.sfiguz7.netherenough.implementation.items.machines.Alembic;
 import me.sfiguz7.netherenough.implementation.listeners.AlchemyFireListener;
+import me.sfiguz7.netherenough.implementation.listeners.IgnisBlockBreakListener;
 import me.sfiguz7.netherenough.implementation.listeners.InfusedBlocksListener;
+import me.sfiguz7.netherenough.implementation.listeners.NEPhantomKillListener;
+import me.sfiguz7.netherenough.implementation.listeners.NEPhantomSpawnListener;
+import me.sfiguz7.netherenough.implementation.listeners.NEWorldMobSpawnListener;
+import me.sfiguz7.netherenough.generation.worlds.NEWorld;
 import me.sfiguz7.netherenough.lists.Constants;
 import me.sfiguz7.netherenough.lists.NEItems;
 import me.sfiguz7.netherenough.lists.NERegistry;
@@ -20,9 +25,11 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NetherEnough extends JavaPlugin implements SlimefunAddon {
 
@@ -44,9 +51,15 @@ public class NetherEnough extends JavaPlugin implements SlimefunAddon {
             new GitHubBuildsUpdater(this, getFile(), "Sfiguz7/NetherEnough/master").start();
         }
 
-        //Listeners
-        new InfusedBlocksListener(this);
+        // Commands
+        getCommand("netherenough").setExecutor(new NECommands());
+        // Listeners
         new AlchemyFireListener(this);
+        new IgnisBlockBreakListener(this);
+        new InfusedBlocksListener(this);
+        new NEPhantomKillListener(this);
+        new NEPhantomSpawnListener(this);
+        new NEWorldMobSpawnListener(this);
         // Config fetching
         manaRodChance = getConfig().getInt("options.manarod-infusing-chance");
         if (manaRodChance < 0 || manaRodChance > 100) {
@@ -55,6 +68,12 @@ public class NetherEnough extends JavaPlugin implements SlimefunAddon {
             getServer().getPluginManager().disablePlugin(this);
         }
 
+        //Worlds
+        for (NEWorld.Type type : NEWorld.Type.values()) {
+            new NEWorld(type).loadWorld();
+        }
+
+        // Items
         new ManaRod().register(this);
         new Research(new NamespacedKey(this, "unstable"),
             ++researchId, "Unstable", 23)
@@ -92,6 +111,7 @@ public class NetherEnough extends JavaPlugin implements SlimefunAddon {
         return "https://github.com/Sfiguz7/NetherEnough/issues";
     }
 
+    @Nonnull
     @Override
     public JavaPlugin getJavaPlugin() {
         return this;

@@ -1,13 +1,21 @@
 name: NetherEnough
-
-author: Sfiguz7
-
+author: sfiguz7
 description: A Slimefun addon to add more content for the Nether
 
 main: me.sfiguz7.netherenough.NetherEnough
-
 depend: [Slimefun]
 
 version: ${project.version}
 
-api-version: 1.14
+api-version: 1.16
+
+commands:
+  netherenough:
+    description: basic NetherEnough command
+    aliases: ne
+    usage: /netherenough <subcommand>
+
+permissions:
+  ne.command.tpworld:
+    description: Allows you to teleport to an existing world
+    default: op

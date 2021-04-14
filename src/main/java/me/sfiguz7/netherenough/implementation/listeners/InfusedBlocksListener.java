@@ -12,6 +12,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
+
 import static org.bukkit.event.EventPriority.LOWEST;
 
 public class InfusedBlocksListener implements Listener {
@@ -21,7 +23,7 @@ public class InfusedBlocksListener implements Listener {
     }
 
     @EventHandler(priority = LOWEST)
-    public void onBreak(BlockBreakEvent e) {
+    public void onBreak(@Nonnull BlockBreakEvent e) {
         Block b = e.getBlock();
         Location loc = b.getLocation();
         if (NetherEnough.getRegistry().getInfusedBlocks().contains(loc)) {
@@ -31,7 +33,7 @@ public class InfusedBlocksListener implements Listener {
         }
     }
 
-    private ItemStack getInfusedBlock(Material m) {
+    private ItemStack getInfusedBlock(@Nonnull Material m) {
         switch (m) {
             case CHISELED_NETHER_BRICKS:
                 return new CustomItem(NEItems.DEMONIC_BRICKS);

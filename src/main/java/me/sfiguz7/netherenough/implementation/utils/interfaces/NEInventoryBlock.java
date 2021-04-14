@@ -9,6 +9,7 @@ import me.mrCookieSlime.Slimefun.cscorelib2.protection.ProtectableAction;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 public interface NEInventoryBlock {
@@ -17,7 +18,7 @@ public interface NEInventoryBlock {
 
     int[] getOutputSlots();
 
-    default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
+    default void createPreset(@Nonnull SlimefunItem item, @Nonnull Consumer<BlockMenuPreset> setup) {
         String title = item.getItemName();
         new BlockMenuPreset(item.getId(), title) {
             public void init() {
@@ -29,7 +30,7 @@ public interface NEInventoryBlock {
             }
 
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.ACCESS_INVENTORIES) && Slimefun.hasUnlocked(p, item, false);
+                return p.hasPermission("slimefun.inventory.bypass") || SlimefunPlugin.getProtectionManager().hasPermission(p, b.getLocation(), ProtectableAction.INTERACT_BLOCK) && Slimefun.hasPermission(p, item, false);
             }
         };
     }

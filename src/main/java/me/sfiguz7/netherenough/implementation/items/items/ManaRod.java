@@ -33,7 +33,6 @@ public class ManaRod extends SimpleSlimefunItem<BlockTicker> {
     public BlockTicker getItemHandler() {
         return new BlockTicker() {
 
-            @Override
             public void tick(Block b, SlimefunItem sf, Config data) {
 
                 // Check neighbours to transform

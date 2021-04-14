@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
 import static org.bukkit.event.EventPriority.LOWEST;
@@ -22,7 +23,7 @@ public class AlchemyFireListener implements Listener {
     }
 
     @EventHandler(priority = LOWEST)
-    public void onLight(PlayerRightClickEvent e) {
+    public void onLight(@Nonnull PlayerRightClickEvent e) {
         ItemStack item = e.getItem();
         if (!(SlimefunItem.getByItem(item) instanceof FireStarter)) {
             Optional<Block> b = e.getClickedBlock();
