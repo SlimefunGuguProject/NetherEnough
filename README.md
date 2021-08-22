@@ -1,2 +1,4 @@
-# NetherEnough
-A Slimefun addon aimed at adding Nether content.
+# 深渊幻章
+前置:EliteMobs
+# 汉化作者
+haiman233
